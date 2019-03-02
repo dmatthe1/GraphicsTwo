@@ -3,18 +3,21 @@ String[] cMark = new String [5];
 int angle = 36;
 int mainX = 0; //E
 int mainY = 0; //E
-int midX = 0; //M
-int midY = 0; //M
-int lastX = 0; //T
-int lastY = 0; //T
+int midX = 1; //M
+int midY = 1; //M
+//int lastX = 1; //T
+//int lastY = 1; //T
+int currentX = 0;
+int currentY = 0;
 
 void setup() {
   size(800,800);
   cMark[0] = "B";
   cMark[1] = "B-MB";
-  cMark[2] = "B-MBTB+BE-B";
-  cMark[3] = "B-MBTB+BE-B-MB";
-  cMark[4] = "B-MBTB+BE-B-MB";
+  cMark[2] = "B-MBMB+BE-B";
+  cMark[3] = "B-MBMB+BE-B-MB";
+  cMark[4] = "B-MBMB+BE-B-MB";
+
   /*
   B: draw curve
   +: flip right 180 degrees
@@ -52,21 +55,35 @@ void draw(){
 void arcMark(){
   for(int i = 0; i < cMark[level].length(); i++){
     char c = cMark[level].charAt(i);
-    if(c == 'B') makeCurve(0, 0, 50);
+    if(c == 'B') {
+      //makeCurve(0, 0, 50);
+      makeCurve(0, 0, 50);
+    }
+    else if (c == 'M') {
+      currentX = midX;
+      currentY = midY;
+      translate(midX, midY);
+    }
+    else if(c == 'E'){
+      currentX = mainX;
+      currentY = mainY;
+      translate(mainX, mainY);
+    }
     else if (c == '-') flipLeft(radians(180));
     else if(c == '+') flipRight(radians(180));
-    //flipLeft(radians(180));
+    else if (c == '[') pushMatrix();
+    else if (c == ']') popMatrix();
   }
 }
 
 void flipLeft(float angle){
   //translate arc
-  rotate(-angle);
+  rotate(-angle);//Need to rotate around the y axis
 }
 
 void flipRight(float angle){
   //translate arc
-  rotate(angle);
+  rotate(angle);//Need to rotate around the y axis
 }
 
 void makeCurve(int x, int y, int radius){
@@ -74,11 +91,23 @@ void makeCurve(int x, int y, int radius){
   //float l = 4 * tan(radians(angle/4))/3;
   noFill();
   bezier(x, y, x-2, y-radius, x + (radius/2), y-radius-2, x+radius, y-radius);
-
-  lastX = x+radius;
-  lastY = y-radius; 
-  midX = x + (radius/4);
-  midY = y - (radius/4);
+  
+  
+  if(currentX == mainX && currentY == mainY){
+    //lastX = x+radius;
+    //lastY = y-radius; 
+    midX = x + (radius/4);
+    midY = y - (radius/4);
+    mainX = x+radius;
+    mainY = y-radius;
+  }
+  else if(currentX == midX && currentY == midY){
+    midX = x + (radius/4);
+    midY = y - (radius/4);
+    //lastX = x+radius;
+    //lastY = y-radius;
+  }
+  
 }
 
 void keyPressed(){
