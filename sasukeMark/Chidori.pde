@@ -20,15 +20,12 @@ class Chidori {
      p.display();
      p.update();
    }
-   
-   addParticle();
-   addParticle();
    addParticle();
   }
   
   void addParticle() {
    PVector randLight = new PVector(origin.x + random(-30,30), origin.y + random(-30,30));
-   parts.add(new Lightning(lastPoint, randLight)); 
+   parts.add(new Lightning(randLight)); 
    lastPoint = randLight.copy();
   }
 }

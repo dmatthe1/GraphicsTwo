@@ -4,7 +4,7 @@ Chidori chakra;
 void setup() {
   size(800,800);
   filter(BLUR ,3);
-  chakra = new Chidori(new PVector(width/2, height/2));
+  chakra = new Chidori(new PVector(width/2, - 200));
 }
 
 int level = 0;
@@ -22,7 +22,7 @@ void draw() {
   
   text("Level: " + level, 10, 20);
   
-  //chakra.run();
+  chakra.run();
 }
 
 void keyPressed(){
