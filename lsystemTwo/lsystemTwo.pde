@@ -1,5 +1,13 @@
 String[] cMark = new String [12];
 
+Web bottomSlinger;
+Web topSlinger;
+boolean pulsate;
+boolean ascending;
+
+int maxLevel = 11;
+int minLevel = 0;
+
 int mainX = 0; //E
 int mainY = 0; //E
 int midX = 1; //M
@@ -11,6 +19,11 @@ int currentY = 0;
 
 void setup() {
   size(800,800);
+  bottomSlinger = new Web(new PVector(width/2, height));
+  topSlinger = new Web(new PVector(width/2, 0));
+  pulsate = false;
+  ascending = true;
+  
   cMark[0] = "B";
   cMark[1] = "B-MB";
   cMark[2] = "[B-MBMB+B]ER-B";
@@ -36,7 +49,22 @@ void setup() {
 int level = 0;
 void draw(){
   background(0);
-
+  bottomSlinger.run();
+  topSlinger.run();
+  
+  text("pulsate: " + pulsate, 10, 10);
+  text("ascending: " + ascending, 10, 20);
+  
+  if (pulsate) {
+    if (ascending) {
+      if (level < maxLevel) level++;
+      else ascending = false;
+    } else {
+      if (level > minLevel) level--;
+      else ascending = true;
+    }   
+  }
+  
   translate(width/2, height/2);
   stroke(255);
   strokeWeight(3);
@@ -55,6 +83,8 @@ void draw(){
   pushMatrix();
   arcMark();
   popMatrix();
+  
+  
 }
 
 void arcMark(){
@@ -126,6 +156,8 @@ void keyPressed(){
   }
   if(keyCode == RIGHT || keyCode == UP){
     level++;
-    if(level > 11) level = 11;
+    if(level > maxLevel) level = maxLevel;
   }
+  
+  if (key == 'p') pulsate = !pulsate;
 }
