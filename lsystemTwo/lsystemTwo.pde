@@ -1,6 +1,5 @@
-String[] lsystem = new String [5];
-String[] cMark = new String [5];
-int angle = 36;
+String[] cMark = new String [12];
+
 int mainX = 0; //E
 int mainY = 0; //E
 int midX = 1; //M
@@ -14,10 +13,16 @@ void setup() {
   size(800,800);
   cMark[0] = "B";
   cMark[1] = "B-MB";
-  cMark[2] = "B-MBMB+BE-B";
-  cMark[3] = "B-MBMB+BE-B-MB";
-  cMark[4] = "B-MBMB+BE-B-MB";
-
+  cMark[2] = "[B-MBMB+B]ER-B";
+  cMark[3] = "[B-MBMB+B]ER-B-MB";
+  cMark[4] = "[B-MBMB+B]ER-[B-MBMB+B]";
+  cMark[5] = "[B-MBMB+B]ER-[B-MBMB+B]ER-B";
+  cMark[6] = "[B-MBMB+B]ER-[B-MBMB+B]ER-B-MB";//
+  cMark[7] = "[B-MBMB+B]ER-[B-MBMB+B]ER-[B-MBMB+B]";
+  cMark[8] = "[B-MBMB+B]ER-[B-MBMB+B]ER-[B-MBMB+B]ER-B";
+  cMark[9] = "[B-MBMB+B]ER-[B-MBMB+B]ER-[B-MBMB+B]ER-B-MB";
+  cMark[10] = "[B-MBMB+B]ER-[B-MBMB+B]ER-[B-MBMB+B]ER-[B-MBMB+B]";
+  cMark[11] = "[B-MBMB+B]ER-[B-MBMB+B]ER-[B-MBMB+B]ER-[B-MBMB+B]ER-B";
   /*
   B: draw curve
   +: flip right 180 degrees
@@ -25,13 +30,6 @@ void setup() {
   M: move origin to halfway point of lst bezier curve
   T: move origin to the end of the last bezier
   E: move origin to the end of the main curve
-  */
-  /*
-  cMark[0] = "FX";
-  cMark[1] = "FX+YF";
-  cMark[2] = "FX+YF+FX-YF";
-  cMark[3] = "FX+YF+FX-YF+FX+YF-FX-YF";
-  cMark[4] = "FX+YF+FX-YF+FX+YF-FX-YF+FX+YF+FX-YF-FX+YF-FX-YF";
   */
 }
 
@@ -42,14 +40,21 @@ void draw(){
   translate(width/2, height/2);
   stroke(255);
   strokeWeight(3);
-  //arc(0, 0, 50, 50, 0, HALF_PI);
-  //noFill();
   
   pushMatrix();
   //makeCurve(0, 0);
   arcMark();
   popMatrix();
   
+  rotate(radians(120));
+  pushMatrix();
+  arcMark();
+  popMatrix();
+
+  rotate(radians(120));
+  pushMatrix();
+  arcMark();
+  popMatrix();
 }
 
 void arcMark(){
@@ -62,28 +67,32 @@ void arcMark(){
     else if (c == 'M') {
       currentX = midX;
       currentY = midY;
-      translate(midX, midY);
+      translate(midX + -14, midY-18);
     }
     else if(c == 'E'){
       currentX = mainX;
       currentY = mainY;
       translate(mainX, mainY);
     }
-    else if (c == '-') flipLeft(radians(180));
-    else if(c == '+') flipRight(radians(180));
+    else if(c == 'R') rotate(radians(90));
+    else if (c == '-') flipLeft();
+    else if(c == '+') flipRight();
     else if (c == '[') pushMatrix();
     else if (c == ']') popMatrix();
   }
 }
 
-void flipLeft(float angle){
+
+void flipLeft(){
   //translate arc
-  rotate(-angle);//Need to rotate around the y axis
+  //rotate(-angle);//Need to rotate around the y axis
+  applyMatrix(-1, 0, 0, 0, 1, 0);
 }
 
-void flipRight(float angle){
+void flipRight(){
   //translate arc
-  rotate(angle);//Need to rotate around the y axis
+  //rotate(angle);//Need to rotate around the y axis
+  applyMatrix(-1, 0, 0, 0, 1, 0);
 }
 
 void makeCurve(int x, int y, int radius){
@@ -117,16 +126,6 @@ void keyPressed(){
   }
   if(keyCode == RIGHT || keyCode == UP){
     level++;
-    if(level > 4) level = 4;
+    if(level > 11) level = 11;
   }
 }
-
-/*
-void f (float len){
-  //line(0, 0, 0, -len);
-  //arc(50, 55, 50, 50, 0, HALF_PI);
-  arc(0, 0, len, len, 0, HALF_PI);
-  noFill();
-  translate(50, 20);
-}
-*/
