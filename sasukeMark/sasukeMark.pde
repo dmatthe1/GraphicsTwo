@@ -8,6 +8,12 @@ void setup() {
   chakra = new Chidori(new PVector(width/2, height/2));
   lsystem [0] = "M";
   lsystem[1] =  "MT[rMAtM]";
+  lsystem[2] =  "MT[rMAtM][RM]";
+  /*
+  lsystem[2] =  "MT[rMAtM][DDDM]";
+  lsystem[3] =  "MT[rMAtM]DDDM[rMAtM]";
+  lsystem[4] =  "MT[rMAtM]DDDM[rMAtM]DDDM";
+  */
 }
 
 int level = 0;
@@ -43,7 +49,8 @@ void curseMark(){
   for(int i = 0; i < lsystem[level].length(); i++){
     char c = lsystem[level].charAt(i);
     if(c == 'M') makeMark(0, 0);
-    else if(c == 'T') translate(10, -10);
+    else if (c == 'D') translate(10, 10);
+    else if(c == 'T') translate(0, -10);
     else if (c== 't') translate(65, 5);
     else if(c == 'R') rotate(radians(30));
     else if(c == 'r') rotate(radians(-30));
