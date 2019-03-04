@@ -7,6 +7,7 @@ boolean ascending;
 
 int maxLevel = 11;
 int minLevel = 0;
+int count = 0;
 
 int mainX = 0; //E
 int mainY = 0; //E
@@ -49,22 +50,29 @@ void setup() {
 int level = 0;
 void draw(){
   background(0);
+  
+  //Web Systems
   bottomSlinger.run();
   topSlinger.run();
   
-  text("pulsate: " + pulsate, 10, 10);
-  text("ascending: " + ascending, 10, 20);
+  //Pulsation
+  text("Press 'p' to pulsate", 10, 15);
   
   if (pulsate) {
-    if (ascending) {
-      if (level < maxLevel) level++;
-      else ascending = false;
-    } else {
-      if (level > minLevel) level--;
-      else ascending = true;
-    }   
+    count++; 
+    if (count % 4 == 0) {
+      if (ascending) {
+        if (level < maxLevel) level++;
+        else ascending = false;
+      } else {
+        if (level > minLevel) level--;
+        else ascending = true;
+      }   
+    }
   }
   
+  
+  //Matrix
   translate(width/2, height/2);
   stroke(255);
   strokeWeight(3);

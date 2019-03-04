@@ -1,21 +1,28 @@
 class Lightning {
-   PVector loc1;
-   PVector loc2;
+   PVector loc;
    PVector vel;
    PVector acc;
    float lifespan;
    
-   Lightning(PVector l1, PVector l2) { 
-     loc1 = l1.copy(); 
-     loc2 = l2.copy();
-     vel = new PVector(random(-2,2), random(-2,2));
+   Lightning(PVector l) { 
+     loc = l.copy(); 
+     vel = new PVector(random(-2,2), random(0,4));
      acc = new PVector(0,0);
      lifespan = 255;
    }
    
    void display() {
-     stroke(0, 0, lifespan);
-     line(loc1.x, loc1.y, loc2.x, loc2.y);
+     noStroke();
+     fill(lifespan, lifespan, 255);
+     beginShape();
+     vertex(loc.x, loc.y);
+     vertex(loc.x + 20, loc.y);
+     vertex(loc.x + 10, loc.y + 20);
+     vertex(loc.x + 15, loc.y + 30);
+     vertex(loc.x + 5, loc.y + 50);
+     vertex(loc.x + 5, loc.y + 30);
+     vertex(loc.x - 5, loc.y + 20);   
+     endShape(CLOSE);
    }
    
    void addForce(PVector force) {
@@ -24,12 +31,11 @@ class Lightning {
    
    void update() {
      vel.add(acc);
-     loc1.add(vel);
-     loc2.add(vel);
-     lifespan--;
+     loc.add(vel);
+     if (lifespan > 0) lifespan -= 0.5;
    }
    
    boolean isDead() {
-    return lifespan < 0; 
+    return (loc.y > height); 
    }
 }

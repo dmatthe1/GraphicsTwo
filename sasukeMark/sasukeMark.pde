@@ -4,8 +4,7 @@ Chidori chakra;
 
 void setup() {
   size(800,800);
-  filter(BLUR ,3);
-  chakra = new Chidori(new PVector(width/2, height/2));
+  chakra = new Chidori(new PVector(width/2, -200));
   lsystem [0] = "M";
   lsystem[1] =  "MT[rMAtM]";
   lsystem[2] =  "MT[rMAtM][RM]";
@@ -19,11 +18,12 @@ void setup() {
 int level = 0;
 void draw() {
   //Canvas Coloring
-  background(255);
+  background(0);
   stroke(0);
   strokeWeight(3);
   fill(0);
-  
+  chakra.run();
+    
   ellipse (width/2, 350, 50, 50);
   ellipse (450, 450, 50, 50);
   ellipse (350, 450, 50, 50);
@@ -42,7 +42,7 @@ void draw() {
   
 
   
-  //chakra.run();
+
 }
 
 void curseMark(){
