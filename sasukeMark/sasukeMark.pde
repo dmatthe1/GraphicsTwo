@@ -1,28 +1,60 @@
 String[] lsystem = new String [5];
 Chidori chakra;
 
+
 void setup() {
   size(800,800);
-  filter(BLUR ,3);
-  chakra = new Chidori(new PVector(width/2, - 200));
+  chakra = new Chidori(new PVector(width/2, -200));
+  lsystem [0] = "M";
+  lsystem[1] =  "MT[rMAtM]";
 }
 
 int level = 0;
 void draw() {
   //Canvas Coloring
-  background(255);
+  background(0);
   stroke(0);
   strokeWeight(3);
   fill(0);
-  
-  //Center
+  chakra.run();
+    
   ellipse (width/2, 350, 50, 50);
   ellipse (450, 450, 50, 50);
   ellipse (350, 450, 50, 50);
-  
   text("Level: " + level, 10, 20);
+    
+  translate(width/2, height/2);
+  //Center
+
   
-  chakra.run();
+  pushMatrix();
+  translate(33, -67);
+  applyMatrix(-1, 0, 0, 0, 1, 0);
+  rotate(radians(180));
+  curseMark();
+  popMatrix();
+  
+
+  
+
+}
+
+void curseMark(){
+  for(int i = 0; i < lsystem[level].length(); i++){
+    char c = lsystem[level].charAt(i);
+    if(c == 'M') makeMark(0, 0);
+    else if(c == 'T') translate(10, -10);
+    else if (c== 't') translate(65, 5);
+    else if(c == 'R') rotate(radians(30));
+    else if(c == 'r') rotate(radians(-30));
+    else if (c == 'A') applyMatrix(-1, 0, 0, 0, 1, 0);
+    else if(c == '[') pushMatrix();
+    else if(c == ']') popMatrix();
+  }
+}
+
+void makeMark(int x, int y){
+   arc(x, y, 96, 24, 1, PI+QUARTER_PI, OPEN);
 }
 
 void keyPressed(){
