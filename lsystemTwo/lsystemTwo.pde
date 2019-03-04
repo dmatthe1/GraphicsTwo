@@ -78,7 +78,6 @@ void draw(){
   strokeWeight(3);
   
   pushMatrix();
-  //makeCurve(0, 0);
   arcMark();
   popMatrix();
   
@@ -99,7 +98,6 @@ void arcMark(){
   for(int i = 0; i < cMark[level].length(); i++){
     char c = cMark[level].charAt(i);
     if(c == 'B') {
-      //makeCurve(0, 0, 50);
       makeCurve(0, 0, 50);
     }
     else if (c == 'M') {
@@ -122,27 +120,19 @@ void arcMark(){
 
 
 void flipLeft(){
-  //translate arc
-  //rotate(-angle);//Need to rotate around the y axis
   applyMatrix(-1, 0, 0, 0, 1, 0);
 }
 
 void flipRight(){
-  //translate arc
-  //rotate(angle);//Need to rotate around the y axis
   applyMatrix(-1, 0, 0, 0, 1, 0);
 }
 
 void makeCurve(int x, int y, int radius){
-  //int angle = 90;
-  //float l = 4 * tan(radians(angle/4))/3;
   noFill();
   bezier(x, y, x-2, y-radius, x + (radius/2), y-radius-2, x+radius, y-radius);
   
   
   if(currentX == mainX && currentY == mainY){
-    //lastX = x+radius;
-    //lastY = y-radius; 
     midX = x + (radius/4);
     midY = y - (radius/4);
     mainX = x+radius;
@@ -151,8 +141,6 @@ void makeCurve(int x, int y, int radius){
   else if(currentX == midX && currentY == midY){
     midX = x + (radius/4);
     midY = y - (radius/4);
-    //lastX = x+radius;
-    //lastY = y-radius;
   }
   
 }
